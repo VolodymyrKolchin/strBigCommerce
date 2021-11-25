@@ -1,7 +1,19 @@
 {{#partial "page"}}
 {{inject 'storefrontAPIToken' settings.storefront_api.token}}
 <div class="bulk-order-container">
-
+    <div class="loadingOverlay" style="display:block;" id="brandsOverlay"></div>
+    <div class="error-registered-users" style="display: none;">
+        <h1 class="page-heading">401 - Access allowed only for registered users.</h1>
+        <p class="u-textAlignCenter">
+            Access is denied. You do not have sufficient rights to view this page.
+        </p>
+    </div>
+    <div class="error-show-page" style="display: none;">
+        <h1 class="page-heading">403 - Access Not Granted</h1>
+        <p class="u-textAlignCenter">
+            Access is denied. You do not have sufficient rights to view this page.
+        </p>
+    </div>
 </div>
 
 {{/partial}}

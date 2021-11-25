@@ -23,9 +23,14 @@ export default class CustomBulkOrder extends PageManager {
         this.gqlClient.query({
             query: customerData,
         }).then(res => {
-            this.showPage = Number(res.data.customer.attributes.showPage.value);
-            this.productSKUsArray = res.data.customer.attributes.productBulkOrderList.value.replace(/\s/g, '').split(',');
-            this.getProductsData(this.productSKUsArray);
+            if (res.data.customer === null) {
+                $('.error-registered-users').show();
+                $('#brandsOverlay').hide();
+            } else {
+                this.showPage = Number(res.data.customer.attributes.showPage.value);
+                this.productSKUsArray = res.data.customer.attributes.productBulkOrderList.value.replace(/\s/g, '').split(',');
+                this.getProductsData(this.productSKUsArray);
+            }
         })
     }
 
@@ -39,7 +44,9 @@ export default class CustomBulkOrder extends PageManager {
             query: getProductsSKU,
             variables: { sku: productSkuItem },
         }).then(res => {
-            this.productsList.push(res.data.site.product);
+            if(res.data.site.product !== null) {
+                this.productsList.push(res.data.site.product);
+            }
         })
     }
 
@@ -50,8 +57,12 @@ export default class CustomBulkOrder extends PageManager {
     getProductsData(productSKUs){
         this.forEachPromise(productSKUs)
             .then(() => {
-                this.showPage === 1 ?  ReactDOM.render(<OrderBulkProductsTable productsList={this.productsList}/>, this.$container) : null;
+                this.showPage === 1
+                    ? ReactDOM.render(<OrderBulkProductsTable productsList={this.productsList}/>, this.$container)
+                    : $('.error-show-page').show();
                 $('#productVariants').on('click', () => this.addToCart());
+                $('#brandsOverlay').hide();
+                $('#productVariants')[0].setAttribute("disabled", "");
             });
     }
 
@@ -96,7 +107,7 @@ export default class CustomBulkOrder extends PageManager {
                 this.cartItemsID = cart[0]?.id;
             })
             .then(()=> {
-                this.createCartItems(`/api/storefront/carts/${this.cartItemsID ? `/${this.cartItemsID}/item` : ''}`, lineItems)
+                this.createCartItems(`/api/storefront/carts/${this.cartItemsID ? `${this.cartItemsID}/item` : ''}`, lineItems)
             })
     }
 

@@ -3,12 +3,12 @@ query customerData {
     firstName
     entityId
     attributes {
-      productBulkOrderList: attribute(entityId: 2) {
+      productBulkOrderList: attribute(entityId: 1) {
         entityId
         value
         name
       }
-      showPage: attribute(entityId: 4) {
+      showPage: attribute(entityId: 2) {
         entityId
         value
         name
