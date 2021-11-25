@@ -44,6 +44,7 @@ export default class Custom extends PageManager {
             })
             .then(data => {
                 ReactDOM.render(<CustomerData
+                    customerId={data.customerId}
                     orderId={data.orderId}
                     status={data.status}
                     billingAddress={data.billingAddress}

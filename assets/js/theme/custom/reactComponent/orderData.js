@@ -11,6 +11,7 @@ export default class CustomerData extends React.Component {
                 <div className='customer-data'>
                     <div className='title'>Customer Data</div>
                     <div>Order ID: {this.props.orderId}</div>
+                    <div>Customer ID: {this.props.customerId}</div>
                     <div>First Name: {this.props.billingAddress.firstName}</div>
                     <div>last Name: {this.props.billingAddress.lastName}</div>
                     <div>Status: {this.props.status}</div>
