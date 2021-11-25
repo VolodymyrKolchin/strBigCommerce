@@ -100,4 +100,57 @@ export default function (secureBaseUrl, cartId) {
     } else {
         $body.trigger('cart-quantity-update', quantity);
     }
+
+    $cartDropdown.on('click', event => {
+        // event.preventDefault();
+        setTimeout(() => {
+            $cartDropdown.addClass("is-open")
+        }, 0);
+        // () => {$cartDropdown.addClass("is-open");}
+        document.querySelectorAll('.previewCartList .button').forEach((element) => {
+            if (element == event.target.parentElement.parentElement) {
+                event.preventDefault();
+                // const cartItemid = element.dataset.cartItemid;
+                console.log('event.target', event.target);
+                const itemId = event.target.data('cartItemid');
+                console.log('itemId',itemId);
+                const $el = $(`#qty-${itemId}`);
+                const oldQty = parseInt($el.val(), 10);
+                const newQty = element.dataset.action === 'inc' ? oldQty + 1 : oldQty - 1;
+                $el.val(newQty);
+                utils.api.cart.itemUpdate(itemId, newQty,(response, err) => {
+                    console.log('res', response);
+                });
+
+                const options = {
+                    template: 'common/cart-preview',
+                };
+                $cartDropdown
+                    .addClass(loadingClass)
+                    .html($cartLoading);
+                $cartLoading
+                    .show();
+                utils.api.cart.getContent(options, (err, response) => {
+                    $cartDropdown
+                        .removeClass(loadingClass)
+                        .html(response);
+                    $cartLoading
+                        .hide();
+                });
+            };
+        })
+
+        /**/
+        document.querySelectorAll('.previewCartList .cart-item-qty-input').forEach((element) => {
+            element.addEventListener('input', function(e){
+                const $elementInput = e.target;
+                const cartItemid = $elementInput.getAttribute('data-cart-itemid');
+                utils.api.cart.itemUpdate(cartItemid, $elementInput,(response, err) => {
+                    console.log('res', response);
+                    console.log('err', err);
+                });
+            })
+        })
+
+    })
 }
