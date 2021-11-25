@@ -103,11 +103,11 @@ export default function (secureBaseUrl, cartId) {
     }
 
     $cartDropdown.on('click', event => {
-        // event.preventDefault();
+
         setTimeout(() => {
             $cartDropdown.addClass("is-open")
         }, 0);
-        // () => {$cartDropdown.addClass("is-open");}
+
         document.querySelectorAll('.previewCartList .button').forEach((element) => {
             if (element == event.target.parentElement.parentElement) {
                 const itemId = element.getAttribute('data-cart-itemid');
