@@ -1,6 +1,7 @@
 import 'foundation-sites/js/foundation/foundation';
 import 'foundation-sites/js/foundation/foundation.dropdown';
 import utils from '@bigcommerce/stencil-utils';
+import swal from "./sweet-alert";
 
 export const CartPreviewEvents = {
     close: 'closed.fndtn.dropdown',
@@ -109,17 +110,17 @@ export default function (secureBaseUrl, cartId) {
         // () => {$cartDropdown.addClass("is-open");}
         document.querySelectorAll('.previewCartList .button').forEach((element) => {
             if (element == event.target.parentElement.parentElement) {
-                event.preventDefault();
-                // const cartItemid = element.dataset.cartItemid;
-                console.log('event.target', event.target);
-                const itemId = event.target.data('cartItemid');
-                console.log('itemId',itemId);
+                const itemId = element.getAttribute('data-cart-itemid');
                 const $el = $(`#qty-${itemId}`);
                 const oldQty = parseInt($el.val(), 10);
                 const newQty = element.dataset.action === 'inc' ? oldQty + 1 : oldQty - 1;
-                $el.val(newQty);
-                utils.api.cart.itemUpdate(itemId, newQty,(response, err) => {
-                    console.log('res', response);
+                utils.api.cart.itemUpdate(itemId, newQty,(err, response) => {
+                    if (response.data.status !== 'succeed') {
+                        swal.fire({
+                            text: response.data.errors.join('\n'),
+                            icon: 'error',
+                        });
+                    }
                 });
 
                 const options = {
@@ -144,10 +145,39 @@ export default function (secureBaseUrl, cartId) {
         document.querySelectorAll('.previewCartList .cart-item-qty-input').forEach((element) => {
             element.addEventListener('input', function(e){
                 const $elementInput = e.target;
-                const cartItemid = $elementInput.getAttribute('data-cart-itemid');
-                utils.api.cart.itemUpdate(cartItemid, $elementInput,(response, err) => {
-                    console.log('res', response);
-                    console.log('err', err);
+                const newQty = parseInt(Number(e.target.value), 10);
+                const itemId = $elementInput.getAttribute('data-cart-itemid');
+
+                // Does not quality for min/max quantity
+                if (!newQty) {
+                    return swal.fire({
+                        text: `${e.target.value} is not a valid entry`,
+                        icon: 'error',
+                    });
+                }
+
+                utils.api.cart.itemUpdate(itemId, newQty,(err, response) => {
+                    if (response.data.status !== 'succeed') {
+                        swal.fire({
+                            text: response.data.errors.join('\n'),
+                            icon: 'error',
+                        });
+                    }
+                });
+                const options = {
+                    template: 'common/cart-preview',
+                };
+                $cartDropdown
+                    .addClass(loadingClass)
+                    .html($cartLoading);
+                $cartLoading
+                    .show();
+                utils.api.cart.getContent(options, (err, response) => {
+                    $cartDropdown
+                        .removeClass(loadingClass)
+                        .html(response);
+                    $cartLoading
+                        .hide();
                 });
             })
         })
