@@ -484,6 +484,9 @@
         }
     },
     "page": {
+        "status401": "401 - Access allowed only for registered users",
+        "status403": "403 - Access Not Granted",
+        "access_denied": "Access is denied. You do not have sufficient rights to view this page.",
         "label": "Quick Links",
         "rss": {
             "intro": "RSS feeds are used for syndicating regularly changing content on a web site, including this one. You can open an RSS feed using an RSS reader and use it to see if there is any new content on this site or you can set up a server-side script to parse the feed and display it on your web site.",
