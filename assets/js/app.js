@@ -53,7 +53,8 @@ const pageClasses = {
 };
 
 const customClasses = {
-    'pages/custom/page/bulk-order': () => import('./theme/custom/bulk-order')
+    'pages/custom/page/bulk-order': () => import('./theme/custom/bulk-order'),
+    'pages/custom/page/request-order': () => import('./theme/custom/request-order'),
 };
 
 /**
