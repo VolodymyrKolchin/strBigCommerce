@@ -27,6 +27,9 @@ export default class CustomCategory extends PageManager {
                                     defaultImage={response.data.site.product.brand.defaultImage}
                                     metaDesc={response.data.site.product.brand.metaDesc}
                                     />, this.$container);
+            }).then(()=>{
+                $('.productView-brand').show();
+                $('#brandsOverlay').hide();
             });
     }
 
