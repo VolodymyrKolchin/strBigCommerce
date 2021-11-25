@@ -82,6 +82,14 @@
         }
         .wraper {
             width: 100%;
+            position: relative;
+            .form-inlineMessage{
+                position: absolute;
+                margin-top: -15px;
+            }
+        }
+        .button {
+            margin-top: 15px;
         }
     }
     .form-input {
