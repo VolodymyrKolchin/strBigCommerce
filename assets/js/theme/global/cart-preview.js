@@ -168,7 +168,6 @@ export default function (secureBaseUrl, cartId) {
                     }
                 items.push(line);
             }
-            console.log('items', items);
             utils.api.cart.itemUpdate(items, (err, response) => {
                 if (response.data.status !== 'succeed') {
                     swal.fire({
