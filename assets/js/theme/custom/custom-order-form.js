@@ -13,6 +13,7 @@ export default class CustomOrderForm extends PageManager {
         this.productsList = [];
         this.$container = $('.custom-order-form-container')[0];
         this.arrForm = [];
+        this.arrProductsData = null;
     }
 
     onReady() {
@@ -29,7 +30,7 @@ export default class CustomOrderForm extends PageManager {
                     'name': res.data.customer.attributes.productBulkOrderList1.name,
                     'value': res.data.customer.attributes.productBulkOrderList1.value,
                     'showPage': res.data.customer.attributes.showPage1.value,
-                    });
+                    })
                 this.arrForm.push({
                     'id': res.data.customer.attributes.showPage2.entityId,
                     'name': res.data.customer.attributes.productBulkOrderList2.name,
@@ -48,12 +49,32 @@ export default class CustomOrderForm extends PageManager {
                     'value': res.data.customer.attributes.productBulkOrderList4.value,
                     'showPage': res.data.customer.attributes.showPage4.value,
                     })
-                console.log('this.arrForm', this.arrForm);
+                let count = 0;
                 this.arrForm.forEach((el)=>{
                     if(el.showPage !== '1') {
                         $(`#${el.id}`).hide();
                     }
+                    if(el.name.length>0) {
+                        count++;
+                    }
                 })
+
+                /**
+                * If there is only 1 custom form, the page must display the
+                * bulk order form right away (or redirect instantaneously)
+                */
+                if(count === 1) {
+                    this.arrForm.forEach((el)=>{
+                        if(el.value !== null) {
+                            this.arrProductsData = el.value.replace(/\s/g, '').split(',');
+                        }
+                    })
+                    this.getProductsData(this.arrProductsData);
+                }
+
+                /**
+                *  The list of products displayed on the page is configured by the admin user
+                */
                 let elements = document.querySelectorAll(".button");
                 let arrProductsData = null;
                 for(var i = 0; i < elements.length; i++){
@@ -78,7 +99,6 @@ export default class CustomOrderForm extends PageManager {
     getProductsData(productSKUs){
          this.forEachPromise(productSKUs)
              .then((res) => {
-             console.log('this.productsList', this.productsList);
              ReactDOM.render(<OrderBulkProductsTable productsList={this.productsList}/>, this.$container)
                  $('#productVariants').on('click', () => this.addToCart());
                  $('#brandsOverlay').hide();
