@@ -16,8 +16,8 @@ export default function MetadataInformationOrderPage(props) {
                             <div>Quantity: {el.quantity}</div>
                             <div>{el.product_options.map(i => {
                                 return (
-                                    <div className="product-options">
-                                        <div key={i.display_name}>{i.display_name}: {i.display_value}</div>
+                                    <div key={i.display_name} className="product-options">
+                                        <div>{i.display_name}: {i.display_value}</div>
                                     </div>
                                 )
                             })}</div>
