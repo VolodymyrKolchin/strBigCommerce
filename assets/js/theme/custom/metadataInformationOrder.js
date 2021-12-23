@@ -7,26 +7,25 @@ export default function MetadataInformationOrderPage(props) {
         )
     } else {
         return (
-            <ul className="Order-product-item">
+            <div className="Order-product-item">
                 {props.newData.map(el => {
-                    console.log('el', el)
                     return (
-                        <li className="subMenu-item" key={el.id}>
-                            <div>{el.name}</div>
-                            <div>{el.base_price}</div>
-                            <div>{el.quantity}</div>
+                        <div className="product-item" key={el.id}>
+                            <div>Name: {el.name}</div>
+                            <div>Price: {el.base_price.slice(0, -2)}</div>
+                            <div>Quantity: {el.quantity}</div>
                             <div>{el.product_options.map(i => {
                                 return (
-                                    <div>
+                                    <div className="product-options">
                                         <div key={i.display_name}>{i.display_name}: {i.display_value}</div>
                                     </div>
                                 )
                             })}</div>
-                        </li>
+                        </div>
                     )
 
                 })}
-            </ul>
+            </div>
         )
     }
 }
