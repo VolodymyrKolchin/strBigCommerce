@@ -191,23 +191,7 @@ export default function (secureBaseUrl, cartId) {
                  $cartLoading
                      .hide();
              });
-            cartPromise.then(()=>{
-                const options = {
-                    template: 'common/cart-preview',
-                };
-                $cartDropdown
-                    .addClass(loadingClass)
-                    .html($cartLoading);
-                $cartLoading
-                    .show();
-                utils.api.cart.getContent(options, (err, response) => {
-                    $cartDropdown
-                        .removeClass(loadingClass)
-                        .html(response);
-                    $cartLoading
-                        .hide();
-                });
-            });
+
         }
 
     })
