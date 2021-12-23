@@ -2,7 +2,7 @@
   <div class="previewCart">
     {{#if cart.items.length}}
         <ul class="previewCartList">
-            {{#each cart.items}}
+            {{#each (limit cart.items 4)}}
                 <li class="previewCartItem">
                     <div class="previewCartItem-image">
                         {{#if type '==' 'GiftCertificate'}}
