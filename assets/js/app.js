@@ -30,7 +30,7 @@ const pageClasses = {
     blog: noop,
     blog_post: noop,
     brand: () => import('./theme/brand'),
-    brands: noop,
+    brands: () => import('./theme/custom/brands'),
     cart: () => import('./theme/cart'),
     category: () => import('./theme/category'),
     compare: () => import('./theme/compare'),
@@ -52,7 +52,10 @@ const pageClasses = {
     wishlists: () => import('./theme/wishlist'),
 };
 
-const customClasses = {};
+const customClasses = {
+    'pages/custom/page/bulk-order': () => import('./theme/custom/bulk-order'),
+    'pages/custom/page/request-order': () => import('./theme/custom/request-order'),
+};
 
 /**
  * This function gets added to the global window and then called

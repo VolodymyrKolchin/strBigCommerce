@@ -32,9 +32,19 @@ module.exports = {
                                 useBuiltIns: 'entry',
                                 corejs: '^3.6.5',
                             }],
+                            ['@babel/preset-react'],
                         ],
                     },
                 },
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'graphql-tag/loader'
+                    },
+                ]
             },
             {
                 test: require.resolve('jquery'),
