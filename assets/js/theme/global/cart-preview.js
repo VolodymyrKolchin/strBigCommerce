@@ -168,19 +168,29 @@ export default function (secureBaseUrl, cartId) {
                     }
                 items.push(line);
             }
-            const cartPromise = new Promise((resolve, reject) => {
-                utils.api.cart.itemUpdate(items, (err, response) => {
-                    if (response.data.status !== 'succeed') {
-                        swal.fire({
-                            text: response.data.errors.join('\n'),
-                            icon: 'error',
-                        });
-                        reject(err);
-                    }
-                    resolve(response);
-                })
-
+            utils.api.cart.itemUpdate(items, (err, response) => {
+                if (response.data.status !== 'succeed') {
+                    swal.fire({
+                        text: response.data.errors.join('\n'),
+                        icon: 'error',
+                    });
+                }
             })
+             const options = {
+                 template: 'common/cart-preview',
+             };
+             $cartDropdown
+                 .addClass(loadingClass)
+                 .html($cartLoading);
+             $cartLoading
+                 .show();
+             utils.api.cart.getContent(options, (err, response) => {
+                 $cartDropdown
+                     .removeClass(loadingClass)
+                     .html(response);
+                 $cartLoading
+                     .hide();
+             });
             cartPromise.then(()=>{
                 const options = {
                     template: 'common/cart-preview',
