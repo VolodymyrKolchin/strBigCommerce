@@ -15,6 +15,9 @@ import { createTranslationDictionary } from './common/utils/translations-utils';
 import { creditCardType, storeInstrument, Validators as CCValidators, Formatters as CCFormatters } from './common/payment-method';
 import swal from './global/sweet-alert';
 import compareProducts from './global/compare-products';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MetadataInformationOrderPage from "./custom/metadataInformationOrder";
 
 export default class Account extends PageManager {
     constructor(context) {
@@ -28,12 +31,20 @@ export default class Account extends PageManager {
         let storefrontAPIToken = this.context.storefrontAPIToken
             var elements = document.querySelectorAll(".button");
             for(var i = 0; i < elements.length; i++) {
-                elements[i].onclick = function(){
+                elements[i].onclick = function(e){
                     let idOrder = this.dataset.id;
-                    fetch('https://3697-188-230-124-168.ngrok.io/orderProduct?order_id='+idOrder)
+                    fetch('https://23a8-46-211-95-212.ngrok.io/orderProduct?order_id='+idOrder)
                         .then(response =>  response.json())
                         .then(data => {
-                            console.log('JSON.parse(data.data[0].value)', JSON.parse(data.data[0].value))
+                            let newData =  JSON.parse(data?.data[0]?.value);
+                            if(newData.length === 0) { //No data available
+                                let noDataAvailable = 'No data available!';
+                                ReactDOM.render(<MetadataInformationOrderPage noDataAvailable={noDataAvailable}/>, document.getElementById(idOrder));
+                            } else {
+                                ReactDOM.render(<MetadataInformationOrderPage newData={newData}/>, document.getElementById(idOrder));
+                            }
+                            //hide btn
+                            $(e.target).hide();
                         })
                };
         }
