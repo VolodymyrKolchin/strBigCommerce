@@ -18,6 +18,7 @@ import compareProducts from './global/compare-products';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MetadataInformationOrderPage from "./custom/metadataInformationOrder";
+import { showAlertModal } from './global/modal';
 
 export default class Account extends PageManager {
     constructor(context) {
@@ -46,6 +47,7 @@ export default class Account extends PageManager {
                         $(e.target).hide();
                     }).catch((error) => {
                         console.log('error', error);
+                        showAlertModal(error);
                     })
            };
         }
