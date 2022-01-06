@@ -33,10 +33,11 @@ export default class Account extends PageManager {
         for(var i = 0; i < elements.length; i++) {
             elements[i].onclick = function(e){
                 let idOrder = this.dataset.id;
-                fetch('https://99f3-46-211-4-108.ngrok.io/orderProduct?order_id='+idOrder)
+                fetch('https://8240-188-230-124-168.ngrok.io/orderProduct?order_id='+idOrder)
                     .then(response =>  response.json())
                     .then(data => {
                         let newData = JSON.parse(data?.response?.data[0]?.value);
+                        console.log('newData', newData)
                         if(newData.length === 0) { //No data available
                             let noDataAvailable = 'No data available!';
                             ReactDOM.render(<MetadataInformationOrderPage noDataAvailable={noDataAvailable}/>, document.getElementById(idOrder));
