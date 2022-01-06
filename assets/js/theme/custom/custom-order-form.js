@@ -5,6 +5,7 @@ import getProductsSKU from './gql/getProductsSKU.gql';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import OrderBulkProductsTable from './reactComponent/OrderBulkProductsTable';
+import ButtonOrderList from './reactComponent/ButtonOrderList';
 
 export default class CustomOrderForm extends PageManager {
     constructor(context) {
@@ -49,10 +50,18 @@ export default class CustomOrderForm extends PageManager {
                     'value': res.data.customer.attributes.productBulkOrderList4.value,
                     'showPage': res.data.customer.attributes.showPage4.value,
                     })
+                this.arrForm.push({
+                    'id': res.data.customer.attributes.showPage5.entityId,
+                    'name': res.data.customer.attributes.productBulkOrderList5.name,
+                    'value': res.data.customer.attributes.productBulkOrderList5.value,
+                    'showPage': res.data.customer.attributes.showPage5.value,
+                    })
                 let count = 0;
                 this.arrForm.forEach((el)=>{
-                    if(el.showPage !== '1') {
-                        $(`#${el.id}`).hide();
+                    $(`#${el.id}`).hide();
+                    if(el.showPage !== null && el.value !== null) {
+                        $(`#${el.id}`).show();
+                        ReactDOM.render(<ButtonOrderList pageName={el.showPage} el={this.arrForm}/>, this.$container)
                     }
                     if(el.name.length>0) {
                         count++;

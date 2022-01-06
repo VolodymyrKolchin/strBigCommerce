@@ -30,7 +30,7 @@ export default class Global extends PageManager {
         }).then(response => {
             if(response.data.customer !== null) {
                 //when adding the show() method, an "inline block" is added to the element, which distorts styles
-                $("[aria-label='Custom Order Form']").css('display', 'block');
+                $("[aria-label='Custom order form']").css('display', 'block');
             }
         })
         const {
