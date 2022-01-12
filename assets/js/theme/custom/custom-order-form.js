@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import OrderBulkProductsTable from './reactComponent/OrderBulkProductsTable';
 import ButtonOrderList from './reactComponent/ButtonOrderList';
+import swal from '../global/sweet-alert';
 
 export default class CustomOrderForm extends PageManager {
     constructor(context) {
@@ -191,12 +192,15 @@ export default class CustomOrderForm extends PageManager {
         .then(data => data.json())
         .then(res =>  {
             if(res.title !== undefined) {
-                alert(res.title);
-                return;
+                let tmp = res.detail.split(' ');
+                tmp.splice(0, 2);
+                return swal.fire({
+                    text: tmp.join(' '),
+                    icon: 'error',
+                });
             }
             window.location = '/cart.php'
         })
-//        .then(()=> {window.location = '/cart.php'})
     };
 
 }
