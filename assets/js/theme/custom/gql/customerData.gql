@@ -43,6 +43,16 @@ query customerData {
         value
         name
       }
+      productBulkOrderList5: attribute(entityId: 9) {
+        entityId
+        value
+        name
+      }
+      showPage5: attribute(entityId: 10) {
+        entityId
+        value
+        name
+      }
     }
   }
 }
