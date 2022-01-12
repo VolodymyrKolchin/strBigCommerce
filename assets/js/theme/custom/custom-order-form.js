@@ -188,8 +188,15 @@ export default class CustomOrderForm extends PageManager {
             },
             body: JSON.stringify({ lineItems: cartItems}),
         })
-            .then(response => response.json())
-            .then(()=> {window.location = '/cart.php'})
+        .then(data => data.json())
+        .then(res =>  {
+            if(res.title !== undefined) {
+                alert(res.title);
+                return;
+            }
+            window.location = '/cart.php'
+        })
+//        .then(()=> {window.location = '/cart.php'})
     };
 
 }
