@@ -153,11 +153,25 @@ export default class CustomOrderForm extends PageManager {
         let qtyFields = Array.from(document.getElementsByClassName('qtyField'));
         for (const [i, item] of qtyFields.entries()) {
             if (item.value > 0 && parseInt(item.value)) {
-                let lineItem = {
-                    "quantity": parseInt(item.value),
-                    "productId": this.productsList[i].entityId,
+                const product = this.productsList.find(product => product.sku === item.dataset.sku);
+                if(product.variants.edges.length === 1) {
+                    let lineItem = {
+                        "quantity": parseInt(item.value),
+                        "productId": this.productsList[i].entityId,
+                    }
+                    cartItems.push(lineItem);
+                } else {
+                    product.variants.edges.map((el)=>{
+                        if(item.dataset.sku === el.node.sku) {
+                            let lineItem = {
+                                'quantity': parseInt(item.value, 10),
+                                'productId': product.entityId,
+                                'variantId': el.node.entityId
+                            }
+                            cartItems.push(lineItem);
+                        }
+                    })
                 }
-                cartItems.push(lineItem);
             }
         }
         this.createCart(cartItems);

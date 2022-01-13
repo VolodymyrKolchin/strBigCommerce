@@ -4,7 +4,6 @@ import nod from './common/nod';
 import validation from './common/form-validation';
 import forms from './common/models/forms';
 import {
-
     classifyForm,
     Validators,
     createPasswordValidationErrorTextObject,

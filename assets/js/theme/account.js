@@ -15,10 +15,6 @@ import { createTranslationDictionary } from './common/utils/translations-utils';
 import { creditCardType, storeInstrument, Validators as CCValidators, Formatters as CCFormatters } from './common/payment-method';
 import swal from './global/sweet-alert';
 import compareProducts from './global/compare-products';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MetadataInformationOrderPage from "./custom/metadataInformationOrder";
-import { showAlertModal } from './global/modal';
 
 export default class Account extends PageManager {
     constructor(context) {
@@ -29,29 +25,6 @@ export default class Account extends PageManager {
     }
 
     onReady() {
-        var elements = document.querySelectorAll(".button");
-        for(var i = 0; i < elements.length; i++) {
-            elements[i].onclick = function(e){
-                let idOrder = this.dataset.id;
-                fetch('https://b06d-188-230-124-168.ngrok.io/orderProduct?order_id='+idOrder)
-                    .then(response =>  response.json())
-                    .then(data => {
-                        let newData = JSON.parse(data?.data[0]?.value);
-                        if(newData.length === 0) { //No data available
-                            let noDataAvailable = 'No data available!';
-                            ReactDOM.render(<MetadataInformationOrderPage noDataAvailable={noDataAvailable}/>, document.getElementById(idOrder));
-                        } else {
-                            ReactDOM.render(<MetadataInformationOrderPage newData={newData}/>, document.getElementById(idOrder));
-                        }
-                        //hide btn
-                        $(e.target).hide();
-                    }).catch((error) => {
-                        console.log('error', error);
-                        showAlertModal(error);
-                    })
-           };
-        }
-
         const $editAccountForm = classifyForm('form[data-edit-account-form]');
         const $addressForm = classifyForm('form[data-address-form]');
         const $inboxForm = classifyForm('form[data-inbox-form]');
