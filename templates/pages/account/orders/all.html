@@ -19,6 +19,8 @@ customer:
         {{/if}}
     </div>
     <div class="account-body">
+        {{inject "orderCustomer" customer.orders}}
+        {{inject "paginationOrders" pagination.orders}}
         <section class="account-content">
             {{#if customer.orders.length}}
                 {{> components/account/orders-list orders=customer.orders}}
