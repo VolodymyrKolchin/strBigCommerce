@@ -6,17 +6,16 @@ export default class OrderHeaderList extends React.Component {
     }
 
     render() {
-        console.log('this.props', this.props.order);
-        return (
+        if(this.props.orderItem  === 0) {
             <div className="containerDetailProduct">
-                {this.props.order.map((el) => {
-                    return (
-                        <div className="subMenu-item" key={el.id}>
-                            {el.id}: {el.status}
-                        </div>
-                    )
-                })}
+                You have {this.props.orderItem} incomplete orders
             </div>
-        )
+        } else {
+            return (
+                <div className="containerDetailProduct">
+                    You have {this.props.orderItem} incomplete orders
+                </div>
+            )
+        }
     }
 }
