@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import OrderHeaderList from '../custom/reactComponent/OrderHeaderList'
 
 export default function (context) {
+    
     console.log('Hi!!! Order Global Header', context.paginationOrders.links);
     const orderItem = [];
     context.paginationOrders.links.map((index) =>{
