@@ -79,9 +79,8 @@ export default class CustomBulkOrder extends PageManager {
             body: JSON.stringify({ lineItems: cartItems}),
         })
         .then(response =>{
-            console.log('response', response);
             response.json()})
-        // .then(()=> {window.location = '/cart.php'})
+        .then(()=> {window.location = '/cart.php'})
     };
     
     onReady() {    

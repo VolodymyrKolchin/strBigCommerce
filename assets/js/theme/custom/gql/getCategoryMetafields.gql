@@ -1,0 +1,37 @@
+query productsInCategory(
+    $pageSize: Int = 3
+    $cursor: String
+){
+    site {
+    category(entityId: 24) {
+        name
+        entityId
+        metafields(
+            namespace: "custom_order_form"
+            first: 2
+        ) {
+        edges {
+            node {
+                key
+                id
+                value
+            }
+        }
+    }
+        products(first: $pageSize, after: $cursor) {
+        pageInfo {
+            hasNextPage
+            startCursor
+            endCursor
+        }
+        edges {
+            node {
+            name
+            sku
+            entityId
+            }
+        }
+        }
+    }
+    }
+}
